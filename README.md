@@ -11,4 +11,4 @@
 |---|---|
 | Test Framework  | XUNIT2 |
 | Test Report Format  | TRX |
-| Test Report Format | Xunit |
+| Test Report Format 2| Xunit |
