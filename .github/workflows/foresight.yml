@@ -7,52 +7,36 @@ on:
   pull_request:
     branches: [ "master" ]
   workflow_dispatch:
-  schedule:
-    - cron: "0 1 * * *"
 
-env:
-  BRANCH_NAME: auto-upstream-merge
-  FORESIGHT_UPLOADER_SIGNER_URL: https://upload.service.runforesight.us
-  WORKFLOW_TELEMETRY_BASE_URL: https://api.service.runforesight.us
-  
 jobs:
   build:
 
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
-
     - name: Collect Workflow Telemetry
       if: always()
       uses: runforesight/foresight-workflow-kit-action@v1
       with:
         api_key: ${{ secrets.FORESIGHT_API_KEY }}
-
     - name: Setup .NET Core 2.1
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.1.x
-
     - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
-
     - name: Setup .NET Core 5.0
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
-
     - name: Test
       run: dotnet test ./src/GraphQL.sln --logger trx
-
-
     - name: Analyze Test and/or Coverage Results
       if: always()
       uses: runforesight/foresight-test-kit-action@v1
